@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign-up form</title>
+</head>
+<body>
+    <form method="post" onsubmit="saveToBackend(event)">
+     <label for="username">username</label>
+     <input type="text" name="username" required><br>
+     <label for="email">email</label>
+     <input type="email" name="email" required><br>
+     <label for="password">password</label>
+     <input type="password" name="password" required><br>
+     <button type="submit"> Sign-up </button>
+    </form>
+    <a href="./login.html">Existing User - Login</a>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+<script>
+   async function saveToBackend(event){
+        event.preventDefault()
+        signupDetails ={
+          username : event.target.username.value,
+          email : event.target.email.value,
+          password : event.target.password.value
+        }
+
+        console.log(signupDetails)
+        const response =await axios.post('http://localhost:3000/user/signup',signupDetails)
+          if(response.status===201){
+            window.location.href = "login.html"
+          }else{
+            throw new Error('failed to sign-up')
+          }
+        }
+    
+</script>
+</html>
