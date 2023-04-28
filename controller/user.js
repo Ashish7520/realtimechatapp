@@ -1,5 +1,10 @@
 const User = require('../model/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
+function generatejsontoken(id,username){
+  return jwt.sign({userId:id, username:username},'hdshfugihasuihfdfahjshdfiou6565sdgdsg5565sdgf')
+}
 
 exports.signup = async (req,res,next)=>{
 try{
@@ -30,4 +35,28 @@ catch(err){
 }
 
 
+}
+
+exports.login = async (req,res)=>{
+    try {
+        const email = req.body.email
+        const password = req.body.password
+        const user =await User.findOne({where:{email}})
+        if(!user){
+            return res.status(404).json({massage:'User does not exist', success:false})
+        }
+
+        const isPasswordValid =await bcrypt.compare(password,user.password)
+        if(!isPasswordValid){
+            return res.status(401).json({massage:'password is incorrect', success: false})
+        }
+
+        res.status(200).json({massage:'user logged in successfully', success: true,token:generatejsontoken(user.id, user.username)})
+        
+    
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({massage:error, success:false})
+    }
 }

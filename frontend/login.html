@@ -7,7 +7,7 @@
     <title>Login form</title>
 </head>
 <body>
-    <form method="post">
+    <form method="post" onsubmit="login(event)">
         <label for="email">email</label>
         <input type="email" name="email" required><br>
         <label for="password">password</label>
@@ -15,5 +15,29 @@
         <button type="submit"> Login </button><br>
         <a href="./signup.html">New User - Sign up </a>
     </form>
+    <ul id="errorMsg"></ul>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+<script>
+    async function login(event){
+        try{
+            event.preventDefault();
+        const loginDetails = {
+            email : event.target.email.value,
+            password : event.target.password.value,
+        }
+        console.log(loginDetails)
+        const response = await axios.post('http://localhost:3000/user/login', loginDetails)
+        console.log(response.data)
+        alert(response.data.massage)
+        const token = response.data.token
+        localStorage.setItem('token', token)
+        window.location.href = 'index.html'
+        }
+       catch(error){
+        console.log(JSON.stringify(error))
+        document.body.innerHTML += `<div style="color: red">${error.message}</div>`;
+       }
+    }
+</script>
 </html>
