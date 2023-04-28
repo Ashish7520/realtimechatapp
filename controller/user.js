@@ -10,6 +10,10 @@ try{
     const password = req.body.password
     const saltRound = 10
 
+    if(username == undefined || username.length === 0 || email == undefined || email.length === 0 || password == undefined || password.length === 0 ){
+        return res.status(400).json({err:'bad parameters. something is missing'})
+      }
+
     const hashedPassword =await bcrypt.hash(password,saltRound)
    
   await  User.create({
