@@ -7,6 +7,19 @@
     <title>group chat app</title>
 </head>
 <body>
-    <h1>hello</h1>
+    <h1 style="text-align: center;">Chat-app</h1>
+        <ul id="spaceformsg"></ul>
+    <form method="post" onsubmit="showmsg(event)">
+            <input type="text" name="massage"> <button type="submit">send</button>
+    </form>
 </body>
+   <script>
+      async function showmsg(event){
+        event.preventDefault();
+        const massage = event.target.massage.value
+        console.log(massage)
+        const showmassage = document.getElementById('spaceformsg')
+        showmassage.innerHTML += `<h2>${massage}</h2>`
+      }
+   </script>
 </html>
