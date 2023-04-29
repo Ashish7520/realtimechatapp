@@ -13,13 +13,21 @@
             <input type="text" name="massage"> <button type="submit">send</button>
     </form>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
    <script>
       async function showmsg(event){
         event.preventDefault();
         const massage = event.target.massage.value
         console.log(massage)
-        const showmassage = document.getElementById('spaceformsg')
-        showmassage.innerHTML += `<h2>${massage}</h2>`
+        const token = localStorage.getItem('token')
+        const body = {
+  massage: event.target.massage.value
+}
+
+        const response = await axios.post('http://localhost:3000/massages/chatbox', body,  { headers: { Authorization: token } })
+        showallmsg()
       }
+
+
    </script>
 </html>
