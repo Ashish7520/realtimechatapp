@@ -12,5 +12,16 @@ exports.postMsg = async(req, res, next) => {
     }
   }
 
+  exports.getMsg = async(req,res,next)=>{
+    try {
+        const allMsg = await Massage.findAll()
+        res.status(201).json({msg:allMsg, success:true})
+    } catch (error) {
+        console.log(error)
+        res.status(404).json(error)
+    }
+
+  }
+
 
   

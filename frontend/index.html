@@ -28,6 +28,24 @@
         showallmsg()
       }
 
+      function showallmsg(msg) {
+  const showmassage = document.getElementById('spaceformsg')
+  const msgElement = document.createElement('h5')
+  msgElement.innerText = msg.massage
+  showmassage.appendChild(msgElement)
+}
+
+
+      window.addEventListener('DOMContentLoaded',async ()=>{
+  const token = localStorage.getItem('token')
+  const allMsg = await axios.get('http://localhost:3000/massages/chatbox', { headers: { Authorization: token } })
+  console.log(allMsg.data.msg)
+  allMsg.data.msg.forEach(msg => {
+    showallmsg(msg)
+  })
+})
+
+
 
    </script>
 </html>
