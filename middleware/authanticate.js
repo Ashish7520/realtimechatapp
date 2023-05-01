@@ -5,9 +5,12 @@ const { use } = require('../routes/user')
 const authanticate = (req,res,next)=>{
     try {
         const token = req.header('Authorization')
-        console.log('token',token)
+       // console.log('token',token)
+        if (!token) {
+            throw new Error('Authentication failed: Token missing');
+          }
         const user = jwt.verify(token,'hdshfugihasuihfdfahjshdfiou6565sdgdsg5565sdgf')
-        console.log('user',user)
+      //  console.log('user',user)
         User.findByPk(user.userId).then(user=>{
             req.user = user
             next()

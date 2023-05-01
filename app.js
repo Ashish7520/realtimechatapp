@@ -3,7 +3,8 @@ const bodyParser = require('body-parser')
 const sequelize = require('./util/database')
 const cors = require('cors')
 const User = require('./model/user')
-const Massage = require('./model/massage')
+const Msg = require('./model/massage')
+
 
 const app = express()
 app.use(bodyParser.json())
@@ -16,11 +17,12 @@ app.use('/user', userRoutes)
 
 app.use('/massages',msgRoutes)
 
-User.hasMany(Massage)
-Massage.belongsTo(User)
+User.hasMany(Msg)
+Msg.belongsTo(User)
 
 sequelize.sync({})
 .then((result)=>{
+    console.log('user running on port 3000')
     app.listen(3000)
 })
 .catch((err)=>{
