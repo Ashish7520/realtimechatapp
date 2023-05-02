@@ -1,7 +1,7 @@
 async function showmsg(event) {
   event.preventDefault();
   const massage = event.target.massage.value;
-  console.log(massage);
+ // console.log(massage);
   const token = localStorage.getItem("token");
   const body = {
     massage: event.target.massage.value,
@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
   const ul = document.getElementById("spaceformsg");
   
-  setInterval(async () => {
+  //setInterval(async () => {
     ul.innerHTML = "";
     const users = await axios.get("http://localhost:3000/user/loggeduser", {
       headers: { Authorization: token },
@@ -37,25 +37,70 @@ window.addEventListener("DOMContentLoaded", async () => {
       ul.innerHTML += `<h5>${onlineUsers}</h5>`;
     });
 
-    const userMsg = await axios.get("http://localhost:3000/massages/chatbox", {
+    
+    const getMsgFromLs = localStorage.getItem('massage')
+    const parsedMsg = JSON.parse(getMsgFromLs)
+    console.log(parsedMsg)
+    let lastObjId
+    if(parsedMsg == null || undefined){
+     lastObjId = 0
+    }else{
+      lastObjId = parsedMsg[parsedMsg.length - 1].id
+    }
+    console.log(lastObjId)
+
+
+    const userMsg = await axios.get(`http://localhost:3000/massages/chatbox?id=${lastObjId}`, {
       headers: { Authorization: token },
     });
+    
+    const getFromLs =localStorage.getItem('massage')
+    const parsedGetFromLs = JSON.parse(getFromLs)
     const msg = userMsg.data.msg;
-    msg.forEach((item) => {
+    const mergedArray = parsedGetFromLs.concat(msg)
+    if(mergedArray[mergedArray.length-1].id > 1000){
+        mergedArray.slice(-1000)
+        localStorage.setItem('massage', JSON.stringify(mergedArray))
+      }else{
+        localStorage.setItem('massage', JSON.stringify(mergedArray))
+      }
+    console.log('this is what i need', mergedArray)
+    //const stringifyMsg = JSON.stringify(msg)
+
+     //localStorage.setItem('massage', JSON.stringify(msg))
+  //  const getMsgFromLs = localStorage.getItem('massage')
+  //  const parsedarray = JSON.parse(getMsgFromLs)
+  //  const lastobj = parsedarray[parsedarray.length-1].id
+  //  console.log(lastobj)
+  // const mergedArray = getMsgFromLs.concat(msg)
+  // if(mergedArray[mergedArray.length-1].id > 1000){
+  //   mergedArray.slice(-1000)
+  //   localStorage.setItem('massage', JSON.stringify(mergedArray))
+  // }else{
+  //   localStorage.setItem('massage', JSON.stringify(mergedArray))
+  // }
+
+const lastmsg = localStorage.getItem('massage')
+const parsedlast10msg = JSON.parse(lastmsg)
+const last10msg = parsedlast10msg.slice(-10)
+console.log("last10msg",last10msg)
+  
+
+last10msg.forEach((item) => {
       const msg = item.massage;
       const username = item["user.username"];
-      console.log(username, msg);
+     // console.log(username, msg);
       const ul = document.getElementById("spaceformsg");
       ul.innerHTML += `<h5>${username}: ${msg}</h5>`;
     });
-  }, 1000);
+ // }, 1000);
 });
 
 
 const logoutBtn = document.getElementById("logout-btn");
 logoutBtn.addEventListener("click", async () => {
   const token = localStorage.getItem("token");
-  console.log(token);
+  //console.log(token);
   const logout = await axios.post("http://localhost:3000/user/logout", null, {
     headers: { Authorization: token },
   });
