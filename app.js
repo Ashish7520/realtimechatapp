@@ -4,6 +4,9 @@ const sequelize = require('./util/database')
 const cors = require('cors')
 const User = require('./model/user')
 const Msg = require('./model/massage')
+const userGroup = require('./model/usergroup')
+const Group = require('./model/group')
+const Groupmsg = require('./model/groupmsg')
 
 
 const app = express()
@@ -17,10 +20,22 @@ app.use('/user', userRoutes)
 
 app.use('/massages',msgRoutes)
 
+const groupRoutes = require('./routes/group')
+app.use('/groups',groupRoutes)
+
 User.hasMany(Msg)
 Msg.belongsTo(User)
 
-sequelize.sync({})
+User.hasMany(Groupmsg)
+Groupmsg.belongsTo(User)
+
+Group.hasMany(Groupmsg)
+Groupmsg.belongsTo(Group)
+
+User.belongsToMany(Group, { through: userGroup });
+Group.belongsToMany(User, { through: userGroup });
+
+sequelize.sync()
 .then((result)=>{
     console.log('user running on port 3000')
     app.listen(3000)

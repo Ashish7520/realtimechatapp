@@ -127,3 +127,20 @@ function parseJwt(token) {
 
   return JSON.parse(jsonPayload);
 }
+
+
+const creategroup = document.getElementById('createGroup')
+creategroup.addEventListener('click', async(e)=>{
+   e.preventDefault();
+   const groupName = prompt("Please enter the group name:", "");
+   
+   if(groupName.length === 0||null|| undefined){
+    alert('group name is minimum of one character')
+   }else{
+    const token = localStorage.getItem('token')
+    const postgroup =await axios.post('http://localhost:3000/groups/group', {groupName},{headers:{ Authorization: token}})
+    console.log(postgroup)
+    window.location.href = 'group.html'
+   }
+})
+
