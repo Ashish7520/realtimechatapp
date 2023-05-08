@@ -144,3 +144,9 @@ creategroup.addEventListener('click', async(e)=>{
    }
 })
 
+const getGroups = document.getElementById('showgroup')
+getGroups.addEventListener('click',async(e)=>{
+  e.preventDefault();
+  window.location.href='group.html'
+})
+

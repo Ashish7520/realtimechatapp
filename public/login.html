@@ -11,8 +11,9 @@
         <label for="email">email</label>
         <input type="email" name="email" required><br>
         <label for="password">password</label>
-        <input type="password" name="password" required><br>
-        <button type="submit"> Login </button><br>
+        <input type="password" name="password" required><br><br>
+        <button type="submit"> Login </button>
+        <button type="submit" id="forgotpassword">forgot password</button><br><br>
         <a href="./signup.html">New User - Sign up </a>
     </form>
     <ul id="errorMsg"></ul>
@@ -41,5 +42,11 @@
         document.body.innerHTML += `<div style="color: red">${error.message}</div>`;
        }
     }
+
+    const forgotpassword = document.getElementById('forgotpassword')
+    forgotpassword.addEventListener('click', async(e)=>{
+      e.preventDefault();
+      window.location.href = 'forgotpassword.html'
+    })
 </script>
 </html>

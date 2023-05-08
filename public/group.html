@@ -14,16 +14,27 @@
         width: 20%;
         background-color: lightgray;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 20px;
       }
       
-      .right {
-        width: 80%;
+      .middle {
+        width: 60%;
         background-color: darkgray;
         display: flex;
         flex-direction: column;
+        padding: 20px;
+      }
+
+      .right {
+        width: 20%;
+        background-color: lightblue;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         padding: 20px;
       }
       
@@ -37,40 +48,7 @@
         height: 70vh;
       }
       
-      /* .message {
-        background-color: white;
-        margin-bottom: 10px;
-        padding: 10px;
-      } */
-      
-      /* .message-content {
-        font-size: 1.2em;
-      } */
-      
-      /* input[type=text] {
-        width: 100%;
-        padding: 12px 20px;
-        margin-top: 10px;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: 2px solid gray;
-      } */
-      
-      /* button {
-        background-color: blue;
-        color: white;
-        padding: 14px 20px;
-        margin-top: 10px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-      } */
-      
-      /* button:hover {
-        opacity: 0.8;
-      } */
-
-       .group-list {
+      .group-list {
         list-style-type: none;
         padding: 0;
         margin-top: 20px;
@@ -90,17 +68,38 @@
         background-color: gray;
         color: white;
       }
+      
+      .users-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+      
+      .users-list li {
+        margin-bottom: 10px;
+        cursor: pointer;
+        padding: 5px;
+      }
+      
+      .users-list li:hover {
+        background-color: lightgray;
+      }
+      
+      .users-list li.active {
+        background-color: gray;
+        color: white;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="left">
-        <h1>Group Chat</h1><br>
+        <h1>Groups</h1><br>
         <ul id="group" class="group-list">
-          <li id="groupli" ></li>
+          <!-- Groups will be added here dynamically -->
         </ul>
       </div>
-      <div class="right">
+      <div class="middle">
         <div class="group-name">
           <!-- Group name will be added here dynamically -->
         </div>
@@ -109,12 +108,19 @@
           <!-- Messages will be added here dynamically -->
         </div>
         <div class="input">
-          <form onsubmit="addtobackend()">
+          <form onsubmit="postGroupMessage(event, currentGroup)">
             <input type="text" name="groupmsg" placeholder="Type your message here...">
-          <button type="submit">Send</button>
-          <button type="submit" id="invite">Invite User</button>
+            <button type="submit">Send</button>
+            <button type="submit" id="invite">Add User</button>
+            <button type="submit" id="backtochat">Back 1to1 chat</button>
           </form>
         </div>
+      </div>
+      <div class="right">
+        <h1>Users</h1><br>
+        <ul id="users" class="users-list">
+          <!-- Users will be added here dynamically -->
+        </ul>
       </div>
     </div>
   </body>

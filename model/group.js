@@ -8,7 +8,8 @@ const Groups = sequelize.define('group',{
         primaryKey:true,
         allowNull:false
     },
-    groupname:Sequelize.STRING
+    groupname:Sequelize.STRING,
+    adminId:Sequelize.INTEGER
 })
 
 module.exports = Groups

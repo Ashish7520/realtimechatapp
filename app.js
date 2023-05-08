@@ -7,6 +7,7 @@ const Msg = require('./model/massage')
 const userGroup = require('./model/usergroup')
 const Group = require('./model/group')
 const Groupmsg = require('./model/groupmsg')
+const Forgotpassword = require('./model/forgotpassword')
 
 
 const app = express()
@@ -23,6 +24,10 @@ app.use('/massages',msgRoutes)
 const groupRoutes = require('./routes/group')
 app.use('/groups',groupRoutes)
 
+const resetPasswordRoutes = require('./routes/forgotpassword')
+app.use('/password', resetPasswordRoutes);
+
+
 User.hasMany(Msg)
 Msg.belongsTo(User)
 
@@ -34,6 +39,11 @@ Groupmsg.belongsTo(Group)
 
 User.belongsToMany(Group, { through: userGroup });
 Group.belongsToMany(User, { through: userGroup });
+userGroup.belongsTo(User)
+userGroup.belongsTo(Group)
+
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 sequelize.sync()
 .then((result)=>{
